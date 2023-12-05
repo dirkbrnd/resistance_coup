@@ -1,48 +1,41 @@
 from enum import Enum
-from typing import List
+from typing import List, Dict
 
 from pydantic import BaseModel
 
+class CardType(Enum):
+    contessa = 0
+    duke = 1
+    assassin = 2
+    captain = 3
+    ambassador = 4
 
-class CardType(Enum, str):
-    contessa = "CONTESSA"
-    duke = "DUKE"
-    assassin = "ASSASSIN"
-    captain = "CAPTAIN"
-    ambassador = "AMBASSADOR"
+
+CARD_COLOR_MAP: Dict[CardType, str] = {
+    CardType.contessa: "#6d191c",
+    CardType.duke: "#632d55",
+    CardType.assassin: "#0f1011",
+    CardType.captain: "#104894",
+    CardType.ambassador: "#a59533",
+}
 
 
-class BaseCard(BaseModel):
+class Card(BaseModel):
     color: str
+    type: CardType
 
-
-class ContessaCard(BaseCard):
-    color = "#CC6677"
-
-
-class DukeCard(BaseCard):
-    color = "#CC6677"
-
-
-class AssassinCard(BaseCard):
-    color = "#CC6677"
-
-
-class CaptainCard(BaseCard):
-    color = "#CC6677"
-
-
-class AmbassadorCard(BaseCard):
-    color = "#CC6677"
+    def __str__(self):
+        return f"[{self.color}]{self.type}[/]"
 
 
 def create_card(card_type: CardType):
-    match card_type:
-        case CardType.contessa:
-            return ContessaCard()
+    return Card(
+        color=CARD_COLOR_MAP.get(card_type),
+        type=card_type
+    )
 
 
-def create_deck() -> List[BaseCard]:
+def create_deck() -> List[Card]:
     return [
         create_card(CardType.contessa),
         create_card(CardType.contessa),
