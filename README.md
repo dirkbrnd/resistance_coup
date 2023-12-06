@@ -14,7 +14,7 @@
 
 ## About The Project
 
-![Screen Shot](assets/first_turn.png)
+![Coup Game](assets/coup_game.png)
 
 This is a terminal text-based version of [The Resistance: Coup](https://www.ultraboardgames.com/coup/game-rules.php#google_vignette). I suggest you make yourself familiar with the rules before playing!
 
@@ -54,6 +54,8 @@ python coup.py
 ```
 
 ## Usage
+
+![Screen Shot](assets/first_turn.png)
 
 * When the game starts it will ask your name.
 * You will play against 4 other AI players.
