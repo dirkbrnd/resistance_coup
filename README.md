@@ -13,8 +13,10 @@
 ![Downloads](https://img.shields.io/github/downloads/dirkbrnd/resistance_coup/total) ![Contributors](https://img.shields.io/github/contributors/dirkbrnd/resistance_coup?color=dark-green) ![Issues](https://img.shields.io/github/issues/dirkbrnd/resistance_coup) ![License](https://img.shields.io/github/license/dirkbrnd/resistance_coup) 
 
 ## About The Project
+<p align="center">
+    <img src="assets/coup_game.png" alt="Coup Game" width="300"/>
+</p>
 
-![Coup Game](assets/coup_game.png)
 
 This is a terminal text-based version of [The Resistance: Coup](https://www.ultraboardgames.com/coup/game-rules.php#google_vignette). I suggest you make yourself familiar with the rules before playing!
 
