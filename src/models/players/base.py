@@ -28,7 +28,6 @@ class BasePlayer(BaseModel, ABC):
     def __str__(self):
         return f"{self.name}"
 
-
     def reset_player(self):
         self.coins = 0
         self.cards = []
@@ -87,9 +86,6 @@ class BasePlayer(BaseModel, ABC):
         pass
 
     @abstractmethod
-    def choose_exchange_cards(
-        self, exchange_cards: list[Card]
-    ) -> Tuple[Card, Card]:
+    def choose_exchange_cards(self, exchange_cards: list[Card]) -> Tuple[Card, Card]:
         """Perform the exchange action. Pick which 2 cards to send back to the deck"""
         pass
-

@@ -41,15 +41,15 @@ def _build_action_report_string(
         case ActionType.foreign_aid:
             action_report_string += "take foreign aid. Their coins are increased by 2."
         case ActionType.coup:
-            action_report_string += f"perform a coup against {target_player.name}. They pay 7 coins."
+            action_report_string += (
+                f"perform a coup against {target_player.name}. They pay 7 coins."
+            )
         case ActionType.tax:
             action_report_string += "take tax because they have influence over a Duke."
         case ActionType.assassinate:
             action_report_string += f"assassinate {target_player.name}."
         case ActionType.steal:
-            action_report_string += (
-                f"steal coin from {target_player.name}"
-            )
+            action_report_string += f"steal coin from {target_player.name}"
         case ActionType.exchange:
             action_report_string += (
                 "perform an exchange, because they have influence over an Ambassador."
@@ -106,10 +106,14 @@ class ResistanceCoupGameHandler:
         print_blank()
         print_table(generate_table(self._players, self._current_player_index))
         print_blank()
-        
+
     def _players_without_player(self, excluded_player: BasePlayer):
         players_copy = self._players.copy()
-        return [player for player in players_copy if player.is_active and player.name != excluded_player.name]
+        return [
+            player
+            for player in players_copy
+            if player.is_active and player.name != excluded_player.name
+        ]
 
     def _shuffle_deck(self) -> None:
         random.shuffle(self._deck)
@@ -117,7 +121,7 @@ class ResistanceCoupGameHandler:
     def reset_game(self) -> None:
         self._deck = create_deck()
         self._shuffle_deck()
-        
+
         self._treasury = 50 - 2 * len(self._players)
 
         for player in self._players:
@@ -154,6 +158,10 @@ class ResistanceCoupGameHandler:
         self._treasury += number_of_coins
         self.current_player.coins -= number_of_coins
 
+    def _next_player(self):
+        self._current_player_index = (self._current_player_index + 1) % len(self._players)
+        while not self.current_player.is_active:
+            self._current_player_index = (self._current_player_index + 1) % len(self._players)
 
     def _action_phase(
         self, players_without_current: list[BasePlayer]
@@ -243,7 +251,9 @@ class ResistanceCoupGameHandler:
 
         return None, None
 
-    def _execute_action(self, action: Action, target_player: BasePlayer, countered: bool = False) -> None:
+    def _execute_action(
+        self, action: Action, target_player: BasePlayer, countered: bool = False
+    ) -> None:
         match action.action_type:
             case ActionType.income:
                 # Player gets 1 coin
@@ -306,58 +316,58 @@ class ResistanceCoupGameHandler:
                 player_being_challenged=self.current_player,
                 action_being_challenged=target_action,
             )
+
+        # Action can't be countered
+        if not target_action.can_be_countered:
+            self._execute_action(target_action, target_player)
+
+        # No challenge occurred, counter can still happen
         if challenge_result == ChallengeResult.no_challenge:
-
-            # Action can't be countered
-            if not target_action.can_be_countered:
-                self._execute_action(target_action, target_player)
-
             # Opportunity to counter
-            else:
-                countering_player, counter = self._counter_phase(
-                    players_without_current, target_action
+            countering_player, counter = self._counter_phase(players_without_current, target_action)
+
+            # Opportunity to challenge counter
+            counter_challenge_result = ChallengeResult.no_challenge
+            if countering_player and counter:
+                players_without_countering_player = self._players_without_player(countering_player)
+                counter_challenge_result = self._challenge_phase(
+                    other_players=players_without_countering_player,
+                    player_being_challenged=countering_player,
+                    action_being_challenged=counter,
                 )
 
-                # Opportunity to challenge counter
-                counter_challenge_result = ChallengeResult.no_challenge
-                if countering_player and counter:
-                    players_without_countering_player = self._players_without_player(countering_player)
-                    counter_challenge_result = self._challenge_phase(
-                        other_players=players_without_countering_player,
-                        player_being_challenged=countering_player,
-                        action_being_challenged=counter,
-                    )
-
-                # Successfully countered and counter not challenged
-                if counter and counter_challenge_result in [ChallengeResult.no_challenge, ChallengeResult.challenge_failed]:
-                    self._execute_action(target_action, target_player, countered=True)
-                # No counter occurred
-                else:
-                    self._execute_action(target_action, target_player)
+            # Successfully countered and counter not challenged
+            if counter and counter_challenge_result in [
+                ChallengeResult.no_challenge,
+                ChallengeResult.challenge_failed,
+            ]:
+                self._execute_action(target_action, target_player, countered=True)
+            # No counter occurred
+            else:
+                self._execute_action(target_action, target_player)
 
         # Is any player out of the game?
         if player := self._remove_defeated_player():
-
             # Our human was defeated
             if player.is_ai:
                 print_blank()
                 print_text(f"{player} was defeated! :skull: :skull: :skull:", with_markup=True)
             else:
-                print_text(f"You were defeated! :skull: :skull: :skull:", with_markup=True)
+                print_text("You were defeated! :skull: :skull: :skull:", with_markup=True)
                 end_game = print_confirm("Do you want to end the game early?")
                 if end_game:
                     return True
 
         # Have we reached a winner?
-        win_state = self._determine_win_state()
-
-        if win_state:
-            print_text(f":raising_hands: Congratulations {self.current_player}! You are the final survivor!", with_markup=True)
+        if self._determine_win_state():
+            print_text(
+                f":raising_hands: Congratulations {self.current_player}! You are the final survivor!",
+                with_markup=True,
+            )
             return True
 
         # Move index to next player
-        self._current_player_index = (self._current_player_index + 1) % len(self._players)
-        while not self.current_player.is_active:
-            self._current_player_index = (self._current_player_index + 1) % len(self._players)
+        self._next_player()
 
+        # No winner yet
         return False

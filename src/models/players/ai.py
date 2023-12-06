@@ -5,7 +5,7 @@ from typing import List, Optional, Tuple
 from src.models.action import Action
 from src.models.card import Card
 from src.models.players.base import BasePlayer
-from src.utils.print import print_text, print_blank, print_texts
+from src.utils.print import print_blank, print_text, print_texts
 
 
 class AIPlayer(BasePlayer):
@@ -57,8 +57,6 @@ class AIPlayer(BasePlayer):
         self.cards += exchange_cards
         random.shuffle(self.cards)
         print_blank()
-        print_text(
-            f"{self} exchanged 2 cards"
-        )
+        print_text(f"{self} exchanged 2 cards")
 
         return self.cards.pop(), self.cards.pop()

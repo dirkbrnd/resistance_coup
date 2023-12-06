@@ -8,7 +8,8 @@ from src.utils.print import (
     print_confirm,
     print_prompt,
     print_text,
-    print_tree, print_texts,
+    print_texts,
+    print_tree,
 )
 
 
@@ -35,7 +36,11 @@ class HumanPlayer(BasePlayer):
             print_blank()
             print_tree(
                 "You can target any of the following players:",
-                [f"{ind} - {str(player)}" for ind, player in enumerate(other_players) if player.is_active],
+                [
+                    f"{ind} - {str(player)}"
+                    for ind, player in enumerate(other_players)
+                    if player.is_active
+                ],
             )
             print_blank()
             target_player_ind = print_prompt("Which player are you targeting? (provide the number)")
@@ -77,7 +82,9 @@ class HumanPlayer(BasePlayer):
             )
 
             print_blank()
-            chosen_card_ind = print_prompt("Which card do you want to discard? (provide the number)")
+            chosen_card_ind = print_prompt(
+                "Which card do you want to discard? (provide the number)"
+            )
 
         discarded_card = self.cards.pop(int(chosen_card_ind))
 
@@ -98,7 +105,9 @@ class HumanPlayer(BasePlayer):
             ],
         )
         print_blank()
-        first_card_ind = print_prompt("What is the first card you want to discard? (provide the number)")
+        first_card_ind = print_prompt(
+            "What is the first card you want to discard? (provide the number)"
+        )
         first_card = self.cards.pop(int(first_card_ind))
 
         print_tree(
@@ -108,7 +117,9 @@ class HumanPlayer(BasePlayer):
                 for ind, card in enumerate(self.cards)
             ],
         )
-        second_card_ind = print_prompt("What is the second card you want to discard? (provide the number)")
+        second_card_ind = print_prompt(
+            "What is the second card you want to discard? (provide the number)"
+        )
         second_card = self.cards.pop(int(second_card_ind))
 
         return first_card, second_card
