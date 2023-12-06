@@ -3,7 +3,7 @@
   <h3 align="center">The Resistance: Coup</h3>
 
   <p align="center">
-    A text-based version of the popular party game, made using rich!
+    A text-based version of the popular party game!
     <br/>
     <br/>
     <a href="https://github.com/dirkbrnd/resistance_coup/issues">Request Feature</a>
