@@ -57,7 +57,7 @@ python coup.py
 
 ## Usage
 
-![Screen Shot](assets/first_turn.png)
+![Screen Shot](assets/game_state.png)
 
 * When the game starts it will ask your name.
 * You will play against 4 other AI players.

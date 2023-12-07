@@ -44,14 +44,14 @@ class BasePlayer(BaseModel, ABC):
 
     def available_actions(self) -> List[Action]:
         # You must coup if you have more than 10 coins
-        if self.coins > 10:
+        if self.coins >= 10:
             return [CoupAction()]
 
         actions = [IncomeAction(), ForeignAidAction(), TaxAction(), StealAction(), ExchangeAction()]
-        if self.coins > 7:
+        if self.coins >= 7:
             actions.append(CoupAction())
 
-        if self.coins > 3:
+        if self.coins >= 3:
             actions.append(AssassinateAction())
 
         return actions

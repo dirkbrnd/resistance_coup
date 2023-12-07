@@ -41,33 +41,29 @@ class Card(BaseModel):
     def __str__(self):
         return f"{self.card_type.value}"
 
-    def __rich__(self):
-        return f"[{self.style}]{self.card_type.value}"
 
+def build_deck() -> List[Card]:
+    def _create_card(card_type: CardType):
+        return Card(
+            foreground_color=CARD_FOREGROUND_COLOR_MAP.get(card_type),
+            background_color=CARD_BACKGROUND_COLOR_MAP.get(card_type),
+            card_type=card_type,
+        )
 
-def create_card(card_type: CardType):
-    return Card(
-        foreground_color=CARD_FOREGROUND_COLOR_MAP.get(card_type),
-        background_color=CARD_BACKGROUND_COLOR_MAP.get(card_type),
-        card_type=card_type,
-    )
-
-
-def create_deck() -> List[Card]:
     return [
-        create_card(CardType.contessa),
-        create_card(CardType.contessa),
-        create_card(CardType.contessa),
-        create_card(CardType.duke),
-        create_card(CardType.duke),
-        create_card(CardType.duke),
-        create_card(CardType.assassin),
-        create_card(CardType.assassin),
-        create_card(CardType.assassin),
-        create_card(CardType.ambassador),
-        create_card(CardType.ambassador),
-        create_card(CardType.ambassador),
-        create_card(CardType.captain),
-        create_card(CardType.captain),
-        create_card(CardType.captain),
+        _create_card(CardType.contessa),
+        _create_card(CardType.contessa),
+        _create_card(CardType.contessa),
+        _create_card(CardType.duke),
+        _create_card(CardType.duke),
+        _create_card(CardType.duke),
+        _create_card(CardType.assassin),
+        _create_card(CardType.assassin),
+        _create_card(CardType.assassin),
+        _create_card(CardType.ambassador),
+        _create_card(CardType.ambassador),
+        _create_card(CardType.ambassador),
+        _create_card(CardType.captain),
+        _create_card(CardType.captain),
+        _create_card(CardType.captain),
     ]

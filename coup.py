@@ -1,3 +1,5 @@
+import sys
+
 from rich.panel import Panel
 from rich.text import Text
 
@@ -13,7 +15,7 @@ from src.utils.print import (
 console.clear()
 
 
-if __name__ == "__main__":
+def main():
     text = Text(
         """
         In the not too distant future, the government is run for profit by a new 'royal class' of multinational CEOs.
@@ -51,7 +53,7 @@ if __name__ == "__main__":
 
     # Play the game
     while game_ready:
-        handler.reset_game()
+        handler.setup_game()
 
         # Take turns until we have a winner
         end_state = False
@@ -59,14 +61,11 @@ if __name__ == "__main__":
         while not end_state:
             turn_count += 1
 
+            handler.print_game_state()
+
             console.print()
             panel = Panel(Text(f"Turn {turn_count}", style="bold", justify="left"), expand=False)
             console.print(panel)
-
-            handler.print_players()
-            console.print(
-                Text.assemble("Current Player: ", (str(handler.current_player), "bold magenta"))
-            )
 
             end_state = handler.handle_turn()
 
@@ -75,3 +74,12 @@ if __name__ == "__main__":
 
     print_blank()
     print_text("GAME OVER", rainbow=True)
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print_blank()
+        print_text("GAME OVER", rainbow=True)
+        sys.exit(130)

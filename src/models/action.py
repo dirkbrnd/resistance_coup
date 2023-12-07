@@ -58,6 +58,7 @@ class AssassinateAction(Action):
     associated_card_type: CardType = CardType.assassin
     requires_target: bool = True
     can_be_challenged: bool = True
+    can_be_countered: bool = True
 
 
 class StealAction(Action):
