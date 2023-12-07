@@ -71,13 +71,31 @@ See the [open issues](https://github.com/dirkbrnd/resistance_coup/issues) for a 
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/dirkbrnd/resistance_coup/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
+* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/dirkbrnd/resistance_coup/issues/new) to discuss it, or directly create a pull request.
 * Please make sure you check your spelling and grammar.
 * Create individual PR for each suggestion.
 
+### Local setup for development
+After you have cloned the repo:
+
+1. Install the game
+
+```sh
+poetry install
+```
+
+2. Set up the pre-commit hooks
+
+```sh
+pre-commit install
+```
+
+3. Make your changes on a branch and create a PR!
+
+
 ### Creating A Pull Request
 
-1. Fork the Project
+1. Clone the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
